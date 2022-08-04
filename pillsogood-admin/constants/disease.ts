@@ -1,0 +1,1 @@
+export const DISEASE = ["고지혈증", "고혈압", "당뇨"]

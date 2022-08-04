@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "pillsogood-client",
+    "slug": "pillsogood-client",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "pillsogood-client"
+}

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "141630578377",
+    "project_id": "beb-04-pillsogood",
+    "storage_bucket": "beb-04-pillsogood.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:141630578377:android:6b9cd4084091c72f24b718",
+        "android_client_info": {
+          "package_name": "com.pillsogoodclient"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "141630578377-v4vcl7m11gbhpe3ms24si3cqn12fv788.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pillsogoodclient",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "141630578377-es7d80nv0ddbmnhc9ttaa889k2hngepm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhs1wOPboaCAkYBzmrM0dJwQXYScFFiJo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "141630578377-es7d80nv0ddbmnhc9ttaa889k2hngepm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
