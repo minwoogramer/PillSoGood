@@ -199,16 +199,8 @@ const Reminder = () => {
   const lastMedi = pillscale * pillday;
   const setVerify = verifying.toString();
   const Submit = () => {
-    console.log(
-      jwtToken,
-      medicine,
-      moment(date).format("HH:mm"),
-      lastMedi,
-      "데이터목록"
-    );
     if (!setVerify) {
       Alert.alert("자신이 먹는 약봉투를 찍어주세요!");
-      console.log("검증실패");
     } else {
       CreatePrescriptionRecord({
         variables: {
@@ -272,7 +264,7 @@ const Reminder = () => {
               value={pillscale}
               returnKeyType="next"
               onChangeText={(text) => setPillscale(text)}
-              placeholderTextColor={"rgba(0, 0, 0, 0.5)"}
+              placeholderTextColor={"rgba(0, 0, 0, 0.5)"} 
             />
 
             <TextInputs

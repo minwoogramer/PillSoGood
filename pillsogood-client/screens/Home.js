@@ -153,7 +153,6 @@ const Home = ({ navigation: { navigate } }) => {
         <Btn
           onPress={() => {
             setClicked(true);
-
             createMedicationRecord({
               variables: {
                 jwt: jwtToken,
@@ -183,18 +182,14 @@ const Home = ({ navigation: { navigate } }) => {
           </MainTxt>
         </View>
       </View>
-      {console.log(renderData, "dataaaaa")}
-      {
-        <FlatList
-          data={renderData}
-          renderItem={renderItem}
-          keyExtractor={(item) => item._id}
-          onRefresh={onRefresh}
-          refreshing={refreshing}
-          onEndReached={onEndReached}
-        />
-      }
-
+      <FlatList
+        data={renderData}
+        renderItem={renderItem}
+        keyExtractor={(item) => item._id}
+        onRefresh={onRefresh}
+        refreshing={refreshing}
+        onEndReached={onEndReached}
+      />
       <AlarmBtn onPress={() => navigate("Reminder")}>
         <AlarmText>알람 등록하기</AlarmText>
       </AlarmBtn>
