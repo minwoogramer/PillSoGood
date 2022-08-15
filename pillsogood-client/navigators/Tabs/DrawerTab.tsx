@@ -5,8 +5,8 @@ import Home from "../../screens/Home";
 import RandomCharacter from "../../screens/NFT/Character/RandomCharacter";
 import Characters from "../../screens/NFT/Character/Characters";
 import CharacterDeco from "../../screens/NFT/Character/CharacterDeco";
-import GetNFTItem from "./../../screens/NFT/GetNFTItem";
-import MyHealth from "./../../screens/Health/MyHealth";
+import GetNFTItem from "../../screens/NFT/GetNFTItem";
+import MyHealth from "../../screens/Health/MyHealth";
 import CustomDrawer from "../../src/components/CustomDrawer";
 import Health from "../../screens/Health/Health";
 const Drawer = createDrawerNavigator();
@@ -15,7 +15,6 @@ export default function DrawerTab() {
   return (
     <Drawer.Navigator
       initialRouteName="Home"
-      drawerPosition="left"
       backBehavior="history"
       drawerContent={(props) => <CustomDrawer {...props} />}
       screenOptions={{ headerShown: false }}

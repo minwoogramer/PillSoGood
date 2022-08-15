@@ -2,7 +2,7 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Health from "../../../screens/Health/Health";
 import { MyHealthInfo } from "../../../screens/Mypage/MyHealthInfo";
-import Home from "./../../../screens/Home";
+import Home from "../../../screens/Home";
 export default function HealthStackScreen() {
   const HealthStack = createNativeStackNavigator();
 

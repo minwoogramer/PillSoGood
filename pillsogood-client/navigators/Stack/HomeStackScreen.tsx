@@ -4,7 +4,7 @@ import Home from "../../screens/Home";
 import Reminder from "../../screens/Health/Reminder";
 import Health from "../../screens/Health/Health";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-export default function HomeStackScreen({ e }) {
+export default function HomeStackScreen() {
   const HomeStack = createDrawerNavigator();
 
   return (
