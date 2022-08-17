@@ -6,9 +6,15 @@ import Multiselect from "../../src/utils/Multiselect";
 import DateTime from "../../src/utils/DateTime";
 import { useMutation } from "@apollo/client";
 import { SIGN_UP } from "../../src/query/MutationQuery";
-import { useNavigation } from "@react-navigation/native";
+import {
+  NavigationContainerProps,
+  NavigationProp,
+  useNavigation,
+} from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { registerActions } from "../../src/store/registerSlice";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RegisterStackParamList } from "../../navigators/Stack/AuthStack/RegisterStackScreen";
 const Container = styled.View`
   background-color: ${BASE_COLOR};
   flex: 1;
@@ -42,13 +48,16 @@ const BtnText = styled.Text`
   color: white;
   font-size: 16px;
 `;
-const Register = () => {
+interface RegisterScreenProps {
+  navigation: StackNavigationProp<RegisterStackParamList, "Login">;
+}
+const Register: React.FunctionComponent<RegisterScreenProps> = (props) => {
   const dispatch = useDispatch();
   // const user = useSelector((state) => state.user.value)
-  const navigation = useNavigation();
-  const passwordInput = useRef();
-  const emailInput = useRef();
-  const passwordCheckInput = useRef();
+  const { navigation } = props;
+  const passwordInput = useRef<HTMLInputElement>(null);
+  const emailInput = useRef<HTMLInputElement>(null);
+  const passwordCheckInput = useRef<HTMLInputElement>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -59,14 +68,15 @@ const Register = () => {
   const [Signup, { data, loading, error }] = useMutation(SIGN_UP);
   const [complete, setComplete] = useState(false);
   const onSubmitEmailEditing = () => {
-    emailInput.current.focus(); //유저가 입력이 끝나면 다음칸으로가게함
+    emailInput.current?.focus(); //유저가 입력이 끝나면 다음칸으로가게함
   };
   const onSubmitPasswordEditing = () => {
-    passwordInput.current.focus();
+    passwordInput.current?.focus();
   };
   const onSubmitPasswordCheckEditing = () => {
-    passwordCheckInput.current.focus();
+    passwordCheckInput.current?.focus();
   };
+
   const onComplete = () => {
     if (!complete) {
       navigation.navigate("Login");
@@ -107,7 +117,7 @@ const Register = () => {
       dispatch(registerActions.setDateOfBirth(birth));
       dispatch(registerActions.setPhoneNumber(phoneNumber));
     } catch (err) {
-      console.log(err.stack);
+      console.log(err);
       setComplete(true);
       Alert.alert("회원가입에 실패했습니다!");
     }
@@ -121,7 +131,7 @@ const Register = () => {
         keyboardType="default"
         value={name}
         returnKeyType="next"
-        onChangeText={(text) => setName(text)}
+        onChangeText={(text: string) => setName(text)}
         onSubmitEditing={onSubmitEmailEditing}
         placeholderTextColor={"rgba(0, 0, 0, 0.5)"}
       />
@@ -133,7 +143,7 @@ const Register = () => {
         keyboardType="email-address"
         value={email}
         returnKeyType="next"
-        onChangeText={(text) => setEmail(text)}
+        onChangeText={(text: string) => setEmail(text)}
         onSubmitEditing={onSubmitPasswordEditing}
         placeholderTextColor={"rgba(0, 0, 0, 0.5)"}
       />
@@ -143,7 +153,7 @@ const Register = () => {
         secureTextEntry
         value={password}
         returnKeyType="next"
-        onChangeText={(text) => setPassword(text)}
+        onChangeText={(text: string) => setPassword(text)}
         onSubmitEditing={onSubmitPasswordCheckEditing}
         placeholderTextColor={"rgba(0, 0, 0, 0.5)"}
       />
@@ -153,7 +163,7 @@ const Register = () => {
         secureTextEntry
         value={passwordCheck}
         returnKeyType="next"
-        onChangeText={(text) => setPasswordCheck(text)}
+        onChangeText={(text: string) => setPasswordCheck(text)}
         placeholderTextColor={"rgba(0, 0, 0, 0.5)"}
       />
       <TextInputs
@@ -163,7 +173,7 @@ const Register = () => {
         keyboardType="number-pad"
         value={phoneNumber}
         returnKeyType="done"
-        onChangeText={(text) => setPhoneNumber(text)}
+        onChangeText={(text: string) => setPhoneNumber(text)}
         placeholderTextColor={"rgba(0, 0, 0, 0.5)"}
       />
 

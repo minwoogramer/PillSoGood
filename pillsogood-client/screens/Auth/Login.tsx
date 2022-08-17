@@ -9,6 +9,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginActions } from "../../src/store/loginSlice";
 import { useNavigation } from "@react-navigation/native";
 import { GetFCMToken } from "../../src/utils/Pushnotification";
+import { RootState } from "../../src/store";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { LoginStackParamList } from "../../navigators/Stack/AuthStack/LoginStackScreen";
+
 const Container = styled.View`
   background-color: ${BASE_COLOR};
   flex: 1;
@@ -66,18 +70,20 @@ const BtnTxt = styled.Text`
   font-weight: 600;
 `;
 
-const Login = ({ navigation: { navigate } }) => {
+interface LoginScreenProps {
+  navigation: StackNavigationProp<LoginStackParamList, "Tabs">;
+}
+const Login: React.FC<LoginScreenProps> = (props) => {
   useEffect(() => {
     GetFCMToken();
   }, []);
-  const navigation = useNavigation();
-  let state = useSelector((state) => state.login); //redux store의 state꺼내는법
+  let { navigation } = props;
+  let state = useSelector((state: RootState) => state.login); //redux store의 state꺼내는법
   const dispatch = useDispatch();
   //참고사항 state= store안에 있는 모든 state
-  console.log(state.user); //obj자료형에서 꺼내는방법
   // let dispatch = useDispatch(); //store.js로 요청 보내주는 함수
   //dispatch(addUser())
-  const passwordInput = useRef();
+  const passwordInput = useRef<HTMLInputElement>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [login, { data, loading, error }] = useMutation(LOGIN);
@@ -117,7 +123,7 @@ const Login = ({ navigation: { navigate } }) => {
   };
 
   const onSubmitEmailEditing = () => {
-    passwordInput.current.focus();
+    passwordInput.current?.focus();
   };
 
   return (
@@ -130,7 +136,7 @@ const Login = ({ navigation: { navigate } }) => {
         keyboardType="email-address"
         value={email}
         returnKeyType="next"
-        onChangeText={(text) => setEmail(text)}
+        onChangeText={(text: string) => setEmail(text)}
         onSubmitEditing={onSubmitEmailEditing}
         placeholderTextColor={"rgba(0, 0, 0, 0.5)"}
       />
@@ -140,12 +146,12 @@ const Login = ({ navigation: { navigate } }) => {
         secureTextEntry
         value={password}
         returnKeyType="done"
-        onChangeText={(text) => setPassword(text)}
+        onChangeText={(text: string) => setPassword(text)}
         placeholderTextColor={"rgba(0, 0, 0, 0.5)"}
       />
       <Wrapper>
         <Text>Don't have an account? </Text>
-        <Btn onPress={() => navigate("Register")}>
+        <Btn onPress={() => navigation.navigate("Register")}>
           <BtnTxt>Register &rarr;</BtnTxt>
         </Btn>
       </Wrapper>

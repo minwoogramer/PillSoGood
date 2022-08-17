@@ -10,9 +10,15 @@ import {
 } from "react-native";
 import Swiper from "react-native-web-swiper";
 import { BASE_COLOR } from "../../../colors";
-import {  useQuery, useMutation,  } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { useSelector } from "react-redux";
-import {  USERQUERY, UserMutation, CharQuery, CharSubmit } from "../../../src/query/MutationQuery"
+import {
+  USERQUERY,
+  UserMutation,
+  CharQuery,
+  CharSubmit,
+} from "../../../src/query/MutationQuery";
+import { RootState } from "../../../src/store";
 
 // 0번째 이슈 : 이미지 뽑고 나서 단일 이미지만 보여야 하는데 여러 이미지가 같이 보임 ---- 대충 해결? random Num이 9까지 생성되는데 샘플 리스트는 9미만 이엇음
 // 1번째 이슈 : result에 배열을 담아와도 maps를 사용 못함. 직접 변수 list를 선언하여 maps를 돌릴 때는 정상 진행; --- 해결. Loading 순서 바뀜
@@ -177,16 +183,15 @@ const RandomCharacter = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [bal, setBal] = useState("")
-  const jwt = useSelector((state) => state.login.token )
+  const [bal, setBal] = useState("");
+  const jwt = useSelector((state: RootState) => state.login.token);
 
-  const {data} = useQuery(USERQUERY, { variables: {jwt: jwt}});
-  
+  const { data } = useQuery(USERQUERY, { variables: { jwt: jwt } });
+
   const [userMutation] = useMutation(UserMutation);
   // const charQuery = useQuery(CharQuery);
   const [charSubmit] = useMutation(CharSubmit);
- 
-  
+
   // 뽑을 캐릭터 리스트 가져오는 함수
   const getImage2 = async () => {
     const res = await fetch(
@@ -197,78 +202,73 @@ const RandomCharacter = () => {
     setLoading(false);
   };
 
-  
   useEffect(() => {
     getImage2();
-    console.log('useEffect data :', data)
-    if(data !== undefined) {
-      const balance = data.getUserInfo.pointBalance
-      setBal(balance)
+    console.log("useEffect data :", data);
+    if (data !== undefined) {
+      const balance = data.getUserInfo.pointBalance;
+      setBal(balance);
     }
   }, [data]);
 
-  
-  
   // 뽑기 함수
   const Draw = () => {
     // 버튼 누르면 로딩 애니메이션 뜨고 3초 뒤에 랜덤 뽑기 실행
     if (bal < 100) {
-      Alert.alert("캐릭터를 뽑으시려면 100포인트를 모으세요!")
-    }
-    else{ // 1.충분한 포인트 있으면 서버에 point 차감 update mutation 전송   // 2. 캐릭터 생성
-      const updateBal = bal-100
-      setBal(updateBal)
+      Alert.alert("캐릭터를 뽑으시려면 100포인트를 모으세요!");
+    } else {
+      // 1.충분한 포인트 있으면 서버에 point 차감 update mutation 전송   // 2. 캐릭터 생성
+      const updateBal = bal - 100;
+      setBal(updateBal);
       userMutation({
         variables: {
-         jwt: jwt, 
-         pointBalance: updateBal
-        }
-      }).then(res => console.log("업데이트 성공 :", res))
+          jwt: jwt,
+          pointBalance: updateBal,
+        },
+      }).then((res) => console.log("업데이트 성공 :", res));
       setDraw(true);
-    console.log(draw);
-    try {
-      setTimeout(() => {
-        // 3초 뒤 랜덤 뽑기 실행
-        // URL에서 받아온 이미지 데이터의 랜덤 인덱스값으로 RandomImg값 변경
-        const randomNumber = Math.floor(Math.random() * 10); // 10 이하의 랜덤 넘버 생성. 인덱스로 들어갈 예정
-        const pic = result[randomNumber];
-        setRandomImg([pic]);
-        Alert.alert(" 캐릭터를 뽑았습니다!");
-      }, 3000);
-    } catch (e) {
-      console.error(e);
-    }
-    //3초 동안 로딩 이미지 보여주어야 함
-    // 서버에 mutation 요청 필요
-    // 성공 alert 떠야됨
+      console.log(draw);
+      try {
+        setTimeout(() => {
+          // 3초 뒤 랜덤 뽑기 실행
+          // URL에서 받아온 이미지 데이터의 랜덤 인덱스값으로 RandomImg값 변경
+          const randomNumber = Math.floor(Math.random() * 10); // 10 이하의 랜덤 넘버 생성. 인덱스로 들어갈 예정
+          const pic = result[randomNumber];
+          setRandomImg([pic]);
+          Alert.alert(" 캐릭터를 뽑았습니다!");
+        }, 3000);
+      } catch (e) {
+        console.error(e);
+      }
+      //3초 동안 로딩 이미지 보여주어야 함
+      // 서버에 mutation 요청 필요
+      // 성공 alert 떠야됨
     }
   };
 
-
   // nft 발행 함수
   const Submit = () => {
-    setLoading(true)
+    setLoading(true);
     charSubmit({
       variables: {
         jwt: jwt,
         name: name,
         description: description,
-        baseId: randomImg[0]
-      }
+        baseId: randomImg[0],
+      },
     }).then((res) => {
-      setLoading(false)
-      if(res){
-        console.log("발행 성공 :", res)
-        Alert.alert("캐릭터를 생성했습니다!")
+      setLoading(false);
+      if (res) {
+        console.log("발행 성공 :", res);
+        Alert.alert("캐릭터를 생성했습니다!");
+      } else {
+        console.log("발행 실패 :", res);
+        Alert.alert("캐릭터 생성이 실패했습니다");
       }
-      else{
-        console.log("발행 실패 :", res)
-        Alert.alert("캐릭터 생성이 실패했습니다")
-      }
-  })
-  setName("")
-  setDescription("")
-};
+    });
+    setName("");
+    setDescription("");
+  };
 
   // 새로고침 함수
   const onRefresh = () => {
@@ -376,4 +376,3 @@ const RandomCharacter = () => {
 };
 
 export default RandomCharacter;
-

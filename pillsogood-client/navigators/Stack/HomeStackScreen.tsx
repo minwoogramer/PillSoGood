@@ -4,8 +4,12 @@ import Home from "../../screens/Home";
 import Reminder from "../../screens/Health/Reminder";
 import Health from "../../screens/Health/Health";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-export default function HomeStackScreen() {
-  const HomeStack = createDrawerNavigator();
+export type HomeStackParamList = {
+  Home: undefined;
+  Reminder: undefined;
+};
+const HomeStackScreen = () => {
+  const HomeStack = createDrawerNavigator<HomeStackParamList>();
 
   return (
     <HomeStack.Navigator
@@ -17,4 +21,5 @@ export default function HomeStackScreen() {
       <HomeStack.Screen name="Reminder" component={Reminder} />
     </HomeStack.Navigator>
   );
-}
+};
+export default HomeStackScreen;

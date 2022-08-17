@@ -6,67 +6,14 @@ import ImagePickerComponent from "../../src/utils/ImagePickerComponent";
 import callGoogleVisionAsync from "../../src/utils/helperFunctions";
 const moment = require("moment");
 import { useSelector } from "react-redux";
-import { MEDICINE_ALARM } from "./../../src/query/MutationQuery";
+import { MEDICINE_ALARM } from "../../src/query/MutationQuery";
 import { useMutation } from "@apollo/client";
 import { Alert, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
-
-Date.prototype.format = function (f) {
-  if (!this.valueOf()) return " ";
-
-  var weekName = [
-    "일요일",
-    "월요일",
-    "화요일",
-    "수요일",
-    "목요일",
-    "금요일",
-    "토요일",
-  ];
-  var d = this;
-
-  return f.replace(/(yyyy|yy|MM|dd|E|hh|mm|ss|a\/p)/gi, function ($1) {
-    switch ($1) {
-      case "yyyy":
-        return d.getFullYear();
-      case "yy":
-        return (d.getFullYear() % 1000).zf(2);
-      case "MM":
-        return (d.getMonth() + 1).zf(2);
-      case "dd":
-        return d.getDate().zf(2);
-      case "E":
-        return weekName[d.getDay()];
-      case "hh":
-        return d.getHours().zf(2);
-      case "hh":
-        return ((h = d.getHours() % 12) ? h : 12).zf(2);
-      case "mm":
-        return d.getMinutes().zf(2);
-      case "ss":
-        return d.getSeconds().zf(2);
-      case "a/p":
-        return d.getHours() < 12 ? "오전" : "오후";
-      default:
-        return $1;
-    }
-  });
-};
-String.prototype.string = function (len) {
-  var s = "",
-    i = 0;
-  while (i++ < len) {
-    s += this;
-  }
-  return s;
-};
-String.prototype.zf = function (len) {
-  return "0".toString(len - this.length) + this;
-};
-Number.prototype.zf = function (len) {
-  return this.toString().zf(len);
-};
+import { RootState } from "../../src/store";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { ReminderParamList } from "../../navigators/Stack/HealthStack/ReminderStackScreen";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 const ReminderContainer = styled.View`
@@ -185,10 +132,13 @@ const SubmitTXTX = styled.Text`
   font-size: 18px;
   color: white;
 `;
-const Reminder = () => {
-  let verifying = useSelector((state) => state.verify.verify);
-  let jwtToken = useSelector((state) => state.login.token);
-  const navigation = useNavigation();
+interface ReminderScreenProps {
+  navigation: StackNavigationProp<ReminderParamList, "Home">;
+}
+const Reminder: React.FC<ReminderScreenProps> = (props) => {
+  let verifying = useSelector((state: RootState) => state.verify.verify);
+  let jwtToken = useSelector((state: RootState) => state.login.token);
+  let { navigation } = props;
   const [CreatePrescriptionRecord, { data }] = useMutation(MEDICINE_ALARM);
   const [times, setTimes] = useState("");
   const [date, setDate] = useState(new Date());
@@ -197,7 +147,7 @@ const Reminder = () => {
   const [pillscale, setPillscale] = useState(0);
   const [pillday, setPillday] = useState(0);
   const lastMedi = pillscale * pillday;
-  const setVerify = verifying.toString();
+  const setVerify = verifying;
   const Submit = () => {
     if (!setVerify) {
       Alert.alert("자신이 먹는 약봉투를 찍어주세요!");
@@ -252,7 +202,7 @@ const Reminder = () => {
               keyboardType="default"
               value={medicine}
               returnKeyType="next"
-              onChangeText={(text) => setMedicine(text)}
+              onChangeText={(text: string) => setMedicine(text)}
               placeholderTextColor={"rgba(0, 0, 0, 0.5)"}
             />
 
@@ -263,8 +213,8 @@ const Reminder = () => {
               keyboardType="number-pad"
               value={pillscale}
               returnKeyType="next"
-              onChangeText={(text) => setPillscale(text)}
-              placeholderTextColor={"rgba(0, 0, 0, 0.5)"} 
+              onChangeText={(text: number) => setPillscale(text)}
+              placeholderTextColor={"rgba(0, 0, 0, 0.5)"}
             />
 
             <TextInputs
@@ -274,7 +224,7 @@ const Reminder = () => {
               keyboardType="number-pad"
               value={pillday}
               returnKeyType="next"
-              onChangeText={(text) => setPillday(text)}
+              onChangeText={(text: number) => setPillday(text)}
               placeholderTextColor={"rgba(0, 0, 0, 0.5)"}
             />
             <SubmitTxt onPress={() => setOpen(true)}>

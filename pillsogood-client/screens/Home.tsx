@@ -12,6 +12,9 @@ import { useSelector } from "react-redux";
 import { Alert, Text, View, FlatList, Modal } from "react-native";
 const moment = require("moment");
 import "moment/locale/ko";
+import { RootState } from "../src/store";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { HomeStackParamList } from "../navigators/Stack/HomeStackScreen";
 const Container = styled.SafeAreaView`
   background-color: ${BASE_COLOR};
   flex: 1;
@@ -100,12 +103,14 @@ const AlarmText = styled.Text`
   font-size: 14px;
   text-align: center;
 `;
-
-const Home = ({ navigation: { navigate } }) => {
+const CardContainer = styled.View``;
+interface HomeStackScreenProps {
+  navigation: StackNavigationProp<HomeStackParamList, "Reminder">;
+}
+const Home: React.FC<HomeStackScreenProps> = (props) => {
+  let { navigation } = props;
   const [refreshing, setRefreshing] = useState(false);
-  let jwtToken = useSelector((state) => state.login.token);
-  const [MedicineName, setMedicineName] = useState("");
-  const [MedicineCount, setMedicineCount] = useState(0);
+  let jwtToken = useSelector((state: RootState) => state.login.token);
   const [clicked, setClicked] = useState(false);
   //Query
   const [RefreshDataFetch, { data, loading, error, refetch }] = useLazyQuery(
@@ -141,33 +146,7 @@ const Home = ({ navigation: { navigate } }) => {
     refetch;
   }, [data]);
   const [createMedicationRecord] = useMutation(POST_MEDICINE_RECORD);
-  const renderItem = ({ item }) => (
-    <Card>
-      <CardElementContainer>
-        <View>
-          <Cardtxt>약 이름: {item.medicine}</Cardtxt>
-          <Cardtxt>남은약 개수: {item.lastMedicationCount}</Cardtxt>
-          <Cardtxt>약 먹는 시간: {item.alertTime}</Cardtxt>
-        </View>
-        {console.log(item, "itemssssssss")}
-        <Btn
-          onPress={() => {
-            setClicked(true);
-            createMedicationRecord({
-              variables: {
-                jwt: jwtToken,
-                medicine: item.medicine,
-                condition: "건강함",
-              },
-            });
-            Alert.alert("10Coins 획득!");
-          }}
-        >
-          <BtnText>확인</BtnText>
-        </Btn>
-      </CardElementContainer>
-    </Card>
-  );
+
   console.log(data);
   return (
     <Container>
@@ -184,13 +163,44 @@ const Home = ({ navigation: { navigate } }) => {
       </View>
       <FlatList
         data={renderData}
-        renderItem={renderItem}
-        keyExtractor={(item) => item._id}
+        renderItem={({ item }) => (
+          <Card>
+            <CardElementContainer>
+              <CardContainer>
+                <Cardtxt>약 이름: {item.medicine}</Cardtxt>
+                <Cardtxt>남은약 개수: {item.lastMedicationCount}</Cardtxt>
+                <Cardtxt>약 먹는 시간: {item.alertTime}</Cardtxt>
+              </CardContainer>
+              {console.log(item, "itemssssssss")}
+              <Btn
+                onPress={() => {
+                  setClicked(true);
+                  createMedicationRecord({
+                    variables: {
+                      jwt: jwtToken,
+                      medicine: item.medicine,
+                      condition: "건강함",
+                    },
+                  });
+                  Alert.alert("10Coins 획득!");
+                }}
+              >
+                <BtnText>확인</BtnText>
+              </Btn>
+            </CardElementContainer>
+          </Card>
+        )}
+        keyExtractor={(item: {
+          alertTime: number;
+          lastMedicationCount: number;
+          medicine: string;
+          _id: string;
+        }) => item._id}
         onRefresh={onRefresh}
         refreshing={refreshing}
         onEndReached={onEndReached}
       />
-      <AlarmBtn onPress={() => navigate("Reminder")}>
+      <AlarmBtn onPress={() => navigation.navigate("Reminder")}>
         <AlarmText>알람 등록하기</AlarmText>
       </AlarmBtn>
     </Container>
