@@ -58,7 +58,15 @@ export const TabNavigation: React.FunctionComponent<ProfileScreenRouteProp> = ()
         headerShown: false,
       })}
     >
-      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          tabBarIcon: ({ color, size }: IconType) => (
+            <Ionicons name={name} size={size} color={color}></Ionicons>
+          ),
+        }}
+      />
       <Tab.Screen
         name="DrawerTab"
         component={DrawerTab}

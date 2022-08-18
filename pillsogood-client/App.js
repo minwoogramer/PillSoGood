@@ -7,7 +7,7 @@ import { Provider } from "react-redux";
 import { store } from "./src/store";
 import SplashScreen from "react-native-splash-screen";
 import MMKVStorage, { useMMKVStorage } from "react-native-mmkv-storage";
-import Root from "./navigators/Root";
+import Root from "./navigators/RootStack";
 import { Alert } from "react-native";
 import {
   requestUserPermission,

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ImageBackground, Image } from "react-native";
+import { View, Text, ImageBackground, Image, SafeAreaView } from "react-native";
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -9,9 +9,10 @@ import FontAwesome5 from "@expo/vector-icons//FontAwesome5";
 import { useSelector } from "react-redux";
 import { useQuery, useMutation } from "@apollo/client";
 import { USERQUERY } from "../query/MutationQuery";
+import { RootState } from "../store";
 
 const CustomDrawer = (props) => {
-  const jwt = useSelector((state) => state.login.token);
+  const jwt = useSelector((state: RootState) => state.login.token);
 
   const { data } = useQuery(USERQUERY, { variables: { jwt: jwt } });
   const [balance, setBalance] = useState(0);
