@@ -18,7 +18,12 @@ type ProfileScreenRouteProp = RouteProp<
   "Home" | "DrawerTab" | "Reminder"
 >;
 interface IconType {
-  name: keyof typeof Ionicons.glyphMap;
+  name?: keyof typeof Ionicons.glyphMap;
+  color: string;
+  size: number;
+}
+interface ScreenIconType {
+  name: string;
   color: string;
   size: number;
 }
@@ -62,7 +67,7 @@ export const TabNavigation: React.FunctionComponent<ProfileScreenRouteProp> = ()
         name="Home"
         component={Home}
         options={{
-          tabBarIcon: ({ color, size }: IconType) => (
+          tabBarIcon: ({ name, color, size }: IconType) => (
             <Ionicons name={name} size={size} color={color}></Ionicons>
           ),
         }}

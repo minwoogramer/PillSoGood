@@ -183,7 +183,7 @@ const RandomCharacter = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [bal, setBal] = useState("");
+  const [bal, setBal] = useState(0);
   const jwt = useSelector((state: RootState) => state.login.token);
 
   const { data } = useQuery(USERQUERY, { variables: { jwt: jwt } });
@@ -292,10 +292,12 @@ const RandomCharacter = () => {
         <Header> 캐릭터 리스트 </Header>
       </HeaderView>
       <Swiper
+        from={1} {/* initial slide is second */}
         loop
-        timeout={3.5}
-        controlsEnabled={false}
-        containerStyle={{ width: "100%", height: SCREEN_HEIGHT / 3 }}
+        timeout={2}
+        springConfig={{ speed: 11 }}
+        minDistanceForAction={0.15}
+        positionFixed
       >
         {result.map((img, index) => (
           <View key={index}>
@@ -310,10 +312,12 @@ const RandomCharacter = () => {
         </MidView>
       ) : (
         <Swiper
+          from={1} {/* initial slide is second */}
           loop
-          timeout={0.1}
-          controlsEnabled={false}
-          containerStyle={{ width: "100%", height: SCREEN_HEIGHT / 3 }}
+          timeout={2}
+          springConfig={{ speed: 11 }}
+          minDistanceForAction={0.15}
+          positionFixed
         >
           {result.map((img, index) => (
             <View key={index}>
@@ -353,7 +357,7 @@ const RandomCharacter = () => {
           keyboardType="default"
           value={name}
           returnKeyType="next"
-          onChangeText={(text) => setName(text)}
+          onChangeText={(text: string) => setName(text)}
           placeholderTextColor={"rgba(0, 0, 0, 0.5)"}
         />
         <TextInputs
@@ -363,7 +367,7 @@ const RandomCharacter = () => {
           keyboardType="default"
           value={description}
           returnKeyType="next"
-          onChangeText={(text) => setDescription(text)}
+          onChangeText={(text: string) => setDescription(text)}
           placeholderTextColor={"rgba(0, 0, 0, 0.5)"}
         />
       </TextInputView>
