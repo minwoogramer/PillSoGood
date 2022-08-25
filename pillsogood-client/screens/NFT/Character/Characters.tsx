@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactComponentElement, ReactNode, useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { BASE_COLOR } from "../../../colors";
 import { useMutation, useQuery, gql } from "@apollo/client";
@@ -15,7 +15,8 @@ import {
 import { NftQuery } from "../../../src/query/MutationQuery";
 import { RootState } from "../../../src/store";
 
-const View = styled.View`
+
+const View= styled.View`
   flex: 1;
 `;
 
@@ -126,14 +127,15 @@ const BtnText = styled.Text`
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-const list = [
-  "https://gateway.pinata.cloud/ipfs/QmZ9LAhzGAimekUEGKUqm3XdE5kYhJW24FzNLioD4DnALD/1.jpeg",
-  "https://gateway.pinata.cloud/ipfs/QmZ9LAhzGAimekUEGKUqm3XdE5kYhJW24FzNLioD4DnALD/2.jpeg",
-  "https://gateway.pinata.cloud/ipfs/QmZ9LAhzGAimekUEGKUqm3XdE5kYhJW24FzNLioD4DnALD/3.jpeg",
-  "https://i.picsum.photos/id/1/200/300.jpg?hmac=jH5bDkLr6Tgy3oAg5khKCHeunZMHq0ehBZr6vGifPLY",
-];
+type Info = {
+   baseId: number; name: string; tokenId: string; description: string;
+   
+}
+type Index = {
+  index: React.Key | null | undefined 
+}
 
-const Characters = () => {
+const Characters:React.FC = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [queryData, setQueryData] = useState("");
   const [metaMaskaddr, setMetaMaskaddr] = useState("");
@@ -181,13 +183,18 @@ const Characters = () => {
         <Header>My NFT list</Header>
       </HeaderView>
       <Swiper
+        vertical
+        from={1} {/* initial slide is second */}
         loop
-        controlsEnabled={false}
-        containerStyle={{ width: "100%", height: SCREEN_HEIGHT / 3 }}
+        timeout={2}
+        springConfig={{ speed: 11 }}
+        minDistanceForAction={0.15}
+        positionFixed
       >
         {/* {console.log('Swiper data:', data.getCharacters)}               */}
-        {data.getCharacters.map((info, index) => (
-          <View key={index}>
+        { !View ? 
+        data.getCharacters.map((info :Info , key: React.Key | null | undefined) => (
+          <View key={key}>
             <BgView style={StyleSheet.absoluteFill} />
             <Wrapper>
               <NftImage source={{ uri: info.baseId }} />
@@ -199,7 +206,7 @@ const Characters = () => {
               </Column>
             </Wrapper>
           </View>
-        ))}
+        )):null}
       </Swiper>
       <TextInputView>
         <TextInputs
