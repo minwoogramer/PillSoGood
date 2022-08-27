@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { BASE_COLOR } from "./../../colors";
+import { BASE_COLOR } from "../../colors";
 Date.prototype.format = function (f) {
   if (!this.valueOf()) return " ";
 
@@ -58,8 +58,20 @@ String.prototype.zf = function (len) {
 Number.prototype.zf = function (len) {
   return this.toString().zf(len);
 };
-
-export default function DateTime({ text, onChangeText }) {
+type Submit = {
+  onSubmit: {
+    (base64: string | undefined): {
+      text: string;
+    };
+  };
+};
+export default function DateTime({
+  text,
+  onChangeText,
+}: {
+  text: string;
+  onChangeText(date: { format: (arg0: string) => string }): void;
+}) {
   const placeholder = "생년월일을 입력해주세요";
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
@@ -71,7 +83,9 @@ export default function DateTime({ text, onChangeText }) {
     setDatePickerVisibility(false);
   };
 
-  const handleConfirm = (date) => {
+  const handleConfirm = (date: {
+    format: (arg0: string) => { format: (arg0: string) => string };
+  }) => {
     console.warn("dateFormat: ", date.format("yyyy/MM/dd"));
     hideDatePicker();
     onChangeText(date.format("yyyy/MM/dd"));
