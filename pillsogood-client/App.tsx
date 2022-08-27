@@ -9,13 +9,11 @@ import SplashScreen from "react-native-splash-screen";
 import MMKVStorage, { useMMKVStorage } from "react-native-mmkv-storage";
 import Root from "./navigators/RootStack";
 import { Alert } from "react-native";
-import {
-  requestUserPermission,
-  NotificationListener,
-  GetFCMToken,
-} from "./src/utils/Pushnotification";
+import { requestUserPermission } from "./src/utils/Pushnotification";
 import askPermission from "./src/utils/Permissons";
-import messaging from "@react-native-firebase/messaging";
+import messaging, {
+  FirebaseMessagingTypes,
+} from "@react-native-firebase/messaging";
 import pushNoti from "./src/utils/pushNoti";
 import notifee, {
   AndroidImportance,
@@ -24,8 +22,8 @@ import notifee, {
 
 export default function App() {
   useEffect(() => {
-    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      pushNoti.displayNoti(remoteMessage);
+    const unsubscribe = messaging().onMessage(async (remoteMessage: any) => {
+      return pushNoti.displayNoti(remoteMessage);
     });
 
     return unsubscribe;

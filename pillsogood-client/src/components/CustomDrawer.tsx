@@ -11,7 +11,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { USERQUERY } from "../query/MutationQuery";
 import { RootState } from "../store";
 
-const CustomDrawer = (props) => {
+const CustomDrawer: React.FC = (props) => {
   const jwt = useSelector((state: RootState) => state.login.token);
 
   const { data } = useQuery(USERQUERY, { variables: { jwt: jwt } });

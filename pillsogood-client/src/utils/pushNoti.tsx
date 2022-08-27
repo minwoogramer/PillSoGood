@@ -4,7 +4,12 @@ import notifee, {
   AndroidColor,
 } from "@notifee/react-native";
 
-const displayNotification = async (message) => {
+const displayNotification = async (message: {
+  notification: {
+    title: string;
+    body: string;
+  };
+}) => {
   const channelAnoucement = await notifee.createChannel({
     id: "default",
     name: "PillSoGood",
@@ -22,5 +27,7 @@ const displayNotification = async (message) => {
 };
 
 export default {
-  displayNoti: (remoteMessage) => displayNotification(remoteMessage),
+  displayNoti: (remoteMessage: {
+    notification: { title: string; body: string };
+  }) => displayNotification(remoteMessage),
 };

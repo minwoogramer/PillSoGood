@@ -1,7 +1,7 @@
 const API_KEY = "AIzaSyC5oWGz2bD23NPpw_56NkpbVxJLb_elfxw"; //put your key here.
 //this endpoint will tell Google to use the Vision API. We are passing in our key as well.
 const API_URL = `https://vision.googleapis.com/v1/images:annotate?key=AIzaSyDhs1wOPboaCAkYBzmrM0dJwQXYScFFiJo`;
-function generateBody(image) {
+function generateBody(image: {}) {
   const body = {
     requests: [
       {
@@ -19,7 +19,7 @@ function generateBody(image) {
   };
   return body;
 }
-async function callGoogleVisionAsync(image) {
+async function callGoogleVisionAsync(image: {}) {
   const body = generateBody(image); //pass in our image for the payload
   const response = await fetch(API_URL, {
     method: "POST",

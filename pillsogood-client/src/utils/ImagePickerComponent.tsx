@@ -4,6 +4,7 @@ import styled from "styled-components/native";
 import { useDispatch, useSelector } from "react-redux";
 import { verifyActions } from "../store/visionVerifySlice";
 import { Alert } from "react-native";
+import { RootState } from "../store";
 const ImagePickView = styled.View`
   width: 100%;
   height: 80px;
@@ -26,9 +27,17 @@ const ImageBtn = styled.Text`
   font-size: 15px;
   margin-top: 15px;
 `;
-function ImagePickerComponent({ onSubmit }) {
-  let username = useSelector((state) => state.login.nickname);
-  const [image, setImage] = useState(null);
+type Submit = {
+  onSubmit: any;
+  // {
+  //   (base64: string | undefined): {
+  //     text: string;
+  //   };
+  // }; callGoogleVision가 Pormise any를 지원해서 제네릭형태로 타입을 넣어야함 개선필요
+};
+function ImagePickerComponent({ onSubmit }: Submit) {
+  let username = useSelector((state: RootState) => state.login.nickname);
+  const [image, setImage] = useState("");
   const [text, setText] = useState("Please add an image");
   const dispatch = useDispatch();
   console.log(text, "text data");

@@ -1,22 +1,41 @@
 import * as React from "react";
 import { Button, View } from "react-native";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import {
+  createDrawerNavigator,
+  DrawerScreenProps,
+} from "@react-navigation/drawer";
 import Home from "../../screens/Home";
 import RandomCharacter from "../../screens/NFT/Character/RandomCharacter";
 import Characters from "../../screens/NFT/Character/Characters";
 import CharacterDeco from "../../screens/NFT/Character/CharacterDeco";
-import GetNFTItem from "../../screens/NFT/GetNFTItem";
 import MyHealth from "../../screens/Health/MyHealth";
 import CustomDrawer from "../../src/components/CustomDrawer";
 import Health from "../../screens/Health/Health";
+import type { RouteProp } from "@react-navigation/native";
 const Drawer = createDrawerNavigator();
-
-export default function DrawerTab() {
+type DrawerParamList = {
+  Home: undefined;
+  RandomCharacter: undefined;
+  Characters: undefined;
+  CharacterDeco: undefined;
+  MyHealth: undefined;
+  Health: undefined;
+};
+type DrawerRouteProp = RouteProp<
+  DrawerParamList,
+  | "Home"
+  | "RandomCharacter"
+  | "Characters"
+  | "CharacterDeco"
+  | "MyHealth"
+  | "Health"
+>;
+export default function DrawerTab(): React.ReactElement<DrawerRouteProp> {
   return (
     <Drawer.Navigator
       initialRouteName="Home"
       backBehavior="history"
-      drawerContent={(props) => <CustomDrawer {...props} />}
+      drawerContent={(props: {}) => <CustomDrawer {...props} />}
       screenOptions={{ headerShown: false }}
     >
       <Drawer.Screen
@@ -38,11 +57,6 @@ export default function DrawerTab() {
         name="CharacterDeco"
         component={CharacterDeco}
         options={{ drawerLabel: "CharacterDeco" }}
-      />
-      <Drawer.Screen
-        name="GetNFTItem"
-        component={GetNFTItem}
-        options={{ drawerLabel: "GetNFTItem" }}
       />
       <Drawer.Screen
         name="MyHealth"

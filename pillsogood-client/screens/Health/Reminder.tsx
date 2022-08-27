@@ -9,11 +9,9 @@ import { useSelector } from "react-redux";
 import { MEDICINE_ALARM } from "../../src/query/MutationQuery";
 import { useMutation } from "@apollo/client";
 import { Alert, Dimensions } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import { RootState } from "../../src/store";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { ReminderParamList } from "../../navigators/Stack/HealthStack/ReminderStackScreen";
+import { ReminderScreenProps } from "../../src/models/Reminder.type";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 const ReminderContainer = styled.View`
@@ -132,9 +130,6 @@ const SubmitTXTX = styled.Text`
   font-size: 18px;
   color: white;
 `;
-interface ReminderScreenProps {
-  navigation: StackNavigationProp<ReminderParamList, "Home">;
-}
 const Reminder: React.FC<ReminderScreenProps> = (props) => {
   let verifying = useSelector((state: RootState) => state.verify.verify);
   let jwtToken = useSelector((state: RootState) => state.login.token);

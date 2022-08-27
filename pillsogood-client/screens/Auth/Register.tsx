@@ -6,15 +6,9 @@ import Multiselect from "../../src/utils/Multiselect";
 import DateTime from "../../src/utils/DateTime";
 import { useMutation } from "@apollo/client";
 import { SIGN_UP } from "../../src/query/MutationQuery";
-import {
-  NavigationContainerProps,
-  NavigationProp,
-  useNavigation,
-} from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { registerActions } from "../../src/store/registerSlice";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { RegisterStackParamList } from "../../navigators/Stack/AuthStack/RegisterStackScreen";
+import { RegisterScreenProps } from "../../src/models/Auth.model";
 const Container = styled.View`
   background-color: ${BASE_COLOR};
   flex: 1;
@@ -48,9 +42,7 @@ const BtnText = styled.Text`
   color: white;
   font-size: 16px;
 `;
-interface RegisterScreenProps {
-  navigation: StackNavigationProp<RegisterStackParamList, "Login">;
-}
+
 const Register: React.FunctionComponent<RegisterScreenProps> = (props) => {
   const dispatch = useDispatch();
   // const user = useSelector((state) => state.user.value)

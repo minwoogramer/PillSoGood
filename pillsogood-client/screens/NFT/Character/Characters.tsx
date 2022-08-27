@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import { NftQuery } from "../../../src/query/MutationQuery";
 import { RootState } from "../../../src/store";
+import { NFTInfo } from "../../../src/models/NFT.model";
 
 
 const View= styled.View`
@@ -127,13 +128,6 @@ const BtnText = styled.Text`
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-type Info = {
-   baseId: number; name: string; tokenId: string; description: string;
-   
-}
-type Index = {
-  index: React.Key | null | undefined 
-}
 
 const Characters:React.FC = () => {
   const [refreshing, setRefreshing] = useState(false);
@@ -183,7 +177,6 @@ const Characters:React.FC = () => {
         <Header>My NFT list</Header>
       </HeaderView>
       <Swiper
-        vertical
         from={1} {/* initial slide is second */}
         loop
         timeout={2}
@@ -193,7 +186,7 @@ const Characters:React.FC = () => {
       >
         {/* {console.log('Swiper data:', data.getCharacters)}               */}
         { !View ? 
-        data.getCharacters.map((info :Info , key: React.Key | null | undefined) => (
+        data.getCharacters.map((info :NFTInfo , key: React.Key | null | undefined) => (
           <View key={key}>
             <BgView style={StyleSheet.absoluteFill} />
             <Wrapper>

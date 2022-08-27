@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
 import { View } from "react-native";
-function Multiselect({ value, setValue }) {
+function Multiselect({ value, setValue }: any) {
   const [FAT_BLOOD_RATE, HIGH_BLOOD_PRESSURE, SUGAR_BLOOD_RATE, HAIR_LESS] = [
-    0, 1, 2, 3,
+    0,
+    1,
+    2,
+    3,
   ];
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([

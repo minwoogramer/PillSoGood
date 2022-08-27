@@ -5,7 +5,8 @@ import { BASE_COLOR } from "../../colors";
 import { useMutation } from "@apollo/client";
 import { useSelector } from "react-redux";
 import { HEALTH_RECORD } from "../../src/query/MutationQuery";
-import { useNavigation } from "@react-navigation/native";
+import { RootState } from "../../src/store";
+import { HealthScreenProps } from "../../src/models/Health.model";
 
 const Container = styled.View`
   background-color: ${BASE_COLOR};
@@ -60,13 +61,13 @@ const Inner = styled.View`
   flex-direction: row;
 `;
 
-const Health = () => {
-  let jwtToken = useSelector((state) => state.login.token);
-
-  const weightInput = useRef();
-  const highHypertensionInput = useRef();
-  const lowHypertensionInput = useRef();
-  const bloodSugerLevelInput = useRef();
+const Health: React.FC<HealthScreenProps> = (props) => {
+  let jwtToken = useSelector((state: RootState) => state.login.token);
+  const { navigation } = props;
+  const weightInput = useRef<HTMLInputElement>(null);
+  const highHypertensionInput = useRef<HTMLInputElement>(null);
+  const lowHypertensionInput = useRef<HTMLInputElement>(null);
+  const bloodSugerLevelInput = useRef<HTMLInputElement>(null);
   //컴포넌트에 포커스
   const [height, setHeight] = useState(0);
   const [weight, setWeight] = useState(0);
@@ -74,22 +75,23 @@ const Health = () => {
   const [lowHypertension, setLowHypertension] = useState(0);
   const [bloodSugerLevel, setBloodSugerLevel] = useState(0);
 
-  const [CreateHealthRecord, { data, loading, error }] =
-    useMutation(HEALTH_RECORD);
+  const [CreateHealthRecord, { data, loading, error }] = useMutation(
+    HEALTH_RECORD
+  );
   const [complete, setComplete] = useState(false);
-  const navigation = useNavigation();
 
   const onSubmitWeightEditing = () => {
-    weightInput.current.focus();
+    weightInput.current?.focus();
   };
+  //개체가 null에서 다른곳으로 옮겨가므로 optional caining을통해 null|값일 경우 둘다를 잡는다.
   const onSubmitHighHypertensionEditing = () => {
-    highHypertensionInput.current.focus();
+    highHypertensionInput.current?.focus();
   };
   const onSubmitLowHypertensionEditing = () => {
-    lowHypertensionInput.current.focus();
+    lowHypertensionInput.current?.focus();
   };
   const onSubmitBloodSugerLevelEditing = () => {
-    bloodSugerLevelInput.current.focus();
+    bloodSugerLevelInput.current?.focus();
   };
 
   const onComplete = () => {
@@ -111,11 +113,11 @@ const Health = () => {
       CreateHealthRecord({
         variables: {
           jwt: jwtToken,
-          height: parseInt(height),
-          weight: parseInt(weight),
-          lowHypertension: parseInt(lowHypertension),
-          highHypertension: parseInt(highHypertension),
-          bloodSugarLevel: parseInt(bloodSugerLevel),
+          height: height,
+          weight: weight,
+          lowHypertension: lowHypertension,
+          highHypertension: highHypertension,
+          bloodSugarLevel: bloodSugerLevel,
         },
       });
       onComplete();
@@ -139,7 +141,7 @@ const Health = () => {
           keyboardType="number-pad"
           // value={String(height)}
           returnKeyType="next"
-          onChangeText={(text) => setHeight(text)}
+          onChangeText={(text: number) => setHeight(text)}
           onSubmitEditing={onSubmitWeightEditing}
           placeholderTextColor={"rgba(0, 0, 0, 0.5)"}
         />
@@ -151,7 +153,7 @@ const Health = () => {
           keyboardType="number-pad"
           // value={String(weight)}
           returnKeyType="next"
-          onChangeText={(text) => setWeight(text)}
+          onChangeText={(text: number) => setWeight(text)}
           onSubmitEditing={onSubmitHighHypertensionEditing}
           placeholderTextColor={"rgba(0, 0, 0, 0.5)"}
         />
@@ -165,7 +167,7 @@ const Health = () => {
           keyboardType="number-pad"
           // value={String(highHypertension)}
           returnKeyType="next"
-          onChangeText={(text) => setHighHypertension(text)}
+          onChangeText={(text: number) => setHighHypertension(text)}
           onSubmitEditing={onSubmitLowHypertensionEditing}
           placeholderTextColor={"rgba(0, 0, 0, 0.5)"}
         />
@@ -177,7 +179,7 @@ const Health = () => {
           keyboardType="number-pad"
           // value={String(lowHypertension)}
           returnKeyType="next"
-          onChangeText={(text) => setLowHypertension(text)}
+          onChangeText={(text: number) => setLowHypertension(text)}
           onSubmitEditing={onSubmitBloodSugerLevelEditing}
           placeholderTextColor={"rgba(0, 0, 0, 0.5)"}
         />
@@ -191,7 +193,7 @@ const Health = () => {
           keyboardType="number-pad"
           // value={String(bloodSugerLevel)}
           returnKeyType="done"
-          onChangeText={(text) => setBloodSugerLevel(text)}
+          onChangeText={(text: number) => setBloodSugerLevel(text)}
           placeholderTextColor={"rgba(0, 0, 0, 0.5)"}
         />
       </Inner>

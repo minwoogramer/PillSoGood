@@ -13,21 +13,19 @@ import { Platform } from "react-native";
 //   BLOCKED: "The permission is denied and not requestable anymore",
 // };
 const androidPermissions = {
-  notification: PERMISSIONS.ANDROID.POST_NOTIFICATIONS,
-  camera: PERMISSIONS.ANDROID.CAMERA,
-  photo: PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
+  notification: PERMISSIONS.ANDROID?.POST_NOTIFICATIONS,
+  camera: PERMISSIONS.ANDROID?.CAMERA,
+  photo: PERMISSIONS.ANDROID?.READ_EXTERNAL_STORAGE,
 };
 
 const askPermission = async () => {
   try {
     const result = await requestMultiple([
-      androidPermissions.notification,
-      androidPermissions.camera,
-      androidPermissions.photo,
+      androidPermissions?.notification,
+      androidPermissions?.camera,
+      androidPermissions?.photo,
     ]);
-    if (result === RESULTS.GRANTED) {
-      console.log(result, "permission granted");
-    }
+    console.log(result, "permission granted");
   } catch (error) {
     console.log("askPermission", error);
   }

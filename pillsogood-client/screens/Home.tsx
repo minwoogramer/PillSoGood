@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import styled from "styled-components/native";
 import { BASE_COLOR } from "../colors";
 import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
@@ -15,6 +14,7 @@ import "moment/locale/ko";
 import { RootState } from "../src/store";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { HomeStackParamList } from "../navigators/Stack/HomeStackScreen";
+import { HomeStackScreenProps } from "../src/models/Home.model";
 const Container = styled.SafeAreaView`
   background-color: ${BASE_COLOR};
   flex: 1;
@@ -104,9 +104,7 @@ const AlarmText = styled.Text`
   text-align: center;
 `;
 const CardContainer = styled.View``;
-interface HomeStackScreenProps {
-  navigation: StackNavigationProp<HomeStackParamList, "Reminder">;
-}
+
 const Home: React.FC<HomeStackScreenProps> = (props) => {
   let { navigation } = props;
   const [refreshing, setRefreshing] = useState(false);

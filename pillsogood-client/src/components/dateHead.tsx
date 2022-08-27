@@ -1,28 +1,35 @@
-import React from 'react'
+import React from "react";
 import styled from "styled-components/native";
 
 const Container = styled.View`
-    background-color: "#FDE0BC";
-    color: black;
-    padding: 16px;
-
+  background-color: "#FDE0BC";
+  color: black;
+  padding: 16px;
 `;
 const MainTxt = styled.Text`
-    color: black;
-    font-size: 12px;
+  color: black;
+  font-size: 12px;
 `;
 
-function dateHead({date}) {
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const formatted = `${year}년 ${month}월 ${day}일`;
+type Dates = {
+  date: {
+    getFullYear: Function;
+    getMonth: Function;
+    getDate: Function;
+  };
+};
 
-    return (
-        <Container>
-            <MainTxt>{ formatted }</MainTxt>
-        </Container>
-        )
-}
+const dateHead: React.FC<Dates> = ({ date }) => {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const formatted = `${year}년 ${month}월 ${day}일`;
 
-export default dateHead
+  return (
+    <Container>
+      <MainTxt>{formatted}</MainTxt>
+    </Container>
+  );
+};
+
+export default dateHead;
