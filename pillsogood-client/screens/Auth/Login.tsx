@@ -10,8 +10,7 @@ import { loginActions } from "../../src/store/loginSlice";
 import { useNavigation } from "@react-navigation/native";
 import { GetFCMToken } from "../../src/utils/Pushnotification";
 import { RootState } from "../../src/store";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { LoginStackParamList } from "../../navigators/Stack/AuthStack/LoginStackScreen";
+import { LoginScreenProps } from "../../src/models/Auth.model";
 
 const Container = styled.View`
   background-color: ${BASE_COLOR};
@@ -70,9 +69,6 @@ const BtnTxt = styled.Text`
   font-weight: 600;
 `;
 
-interface LoginScreenProps {
-  navigation: StackNavigationProp<LoginStackParamList, "Tabs">;
-}
 const Login: React.FC<LoginScreenProps> = (props) => {
   useEffect(() => {
     GetFCMToken();
