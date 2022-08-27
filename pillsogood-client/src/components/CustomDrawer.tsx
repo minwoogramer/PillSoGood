@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, ImageBackground, Image, SafeAreaView } from "react-native";
 import {
+  DrawerContentComponentProps,
   DrawerContentScrollView,
   DrawerItemList,
 } from "@react-navigation/drawer";
@@ -11,7 +12,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { USERQUERY } from "../query/MutationQuery";
 import { RootState } from "../store";
 
-const CustomDrawer: React.FC = (props) => {
+const CustomDrawer = (props: DrawerContentComponentProps) => {
   const jwt = useSelector((state: RootState) => state.login.token);
 
   const { data } = useQuery(USERQUERY, { variables: { jwt: jwt } });

@@ -2,6 +2,8 @@ import * as React from "react";
 import { Button, View } from "react-native";
 import {
   createDrawerNavigator,
+  DrawerContentComponentProps,
+  DrawerNavigationProp,
   DrawerScreenProps,
 } from "@react-navigation/drawer";
 import Home from "../../screens/Home";
@@ -11,31 +13,19 @@ import CharacterDeco from "../../screens/NFT/Character/CharacterDeco";
 import MyHealth from "../../screens/Health/MyHealth";
 import CustomDrawer from "../../src/components/CustomDrawer";
 import Health from "../../screens/Health/Health";
-import type { RouteProp } from "@react-navigation/native";
+import type { ParamListBase, RouteProp } from "@react-navigation/native";
 const Drawer = createDrawerNavigator();
-type DrawerParamList = {
-  Home: undefined;
-  RandomCharacter: undefined;
-  Characters: undefined;
-  CharacterDeco: undefined;
-  MyHealth: undefined;
-  Health: undefined;
-};
-type DrawerRouteProp = RouteProp<
-  DrawerParamList,
-  | "Home"
-  | "RandomCharacter"
-  | "Characters"
-  | "CharacterDeco"
-  | "MyHealth"
-  | "Health"
->;
-export default function DrawerTab(): React.ReactElement<DrawerRouteProp> {
+
+export default function DrawerTab(): React.ReactElement<
+  DrawerNavigationProp<ParamListBase>
+> {
   return (
     <Drawer.Navigator
       initialRouteName="Home"
       backBehavior="history"
-      drawerContent={(props: {}) => <CustomDrawer {...props} />}
+      drawerContent={(props: DrawerContentComponentProps) => (
+        <CustomDrawer {...props} />
+      )}
       screenOptions={{ headerShown: false }}
     >
       <Drawer.Screen
