@@ -162,7 +162,6 @@ const Characters:React.FC = () => {
     setMetaMaskaddr("");
     setTokId("");
   };
-
   return loading ? (
     <Loader>
       <ActivityIndicator />
