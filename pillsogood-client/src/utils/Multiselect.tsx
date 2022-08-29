@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { SetStateAction, useState } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
 import { View } from "react-native";
-function Multiselect({ value, setValue }: any) {
+function Multiselect({ value, setValue }:{value:string[],setValue:React.Dispatch<SetStateAction<string[]>>}) {
   const [FAT_BLOOD_RATE, HIGH_BLOOD_PRESSURE, SUGAR_BLOOD_RATE, HAIR_LESS] = [
     0,
     1,
