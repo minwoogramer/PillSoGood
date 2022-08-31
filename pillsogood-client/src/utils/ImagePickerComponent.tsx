@@ -27,13 +27,13 @@ const ImageBtn = styled.Text`
   font-size: 15px;
   margin-top: 15px;
 `;
-type Submit = {
-  onSubmit: any;
-  // {
-  //   (base64: string | undefined): {
-  //     text: string;
-  //   };
-  // }; callGoogleVision가 Pormise any를 지원해서 제네릭형태로 타입을 넣어야함 개선필요
+type Submit<T> = {
+  onSubmit: {
+    (base64: T): {
+      text: string;
+    };
+  };
+  //  callGoogleVision가 Pormise any를 지원해서 제네릭형태로 타입을 넣어야함 개선필요
 };
 function ImagePickerComponent({ onSubmit }: Submit) {
   let username = useSelector((state: RootState) => state.login.nickname);
